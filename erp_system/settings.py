@@ -93,7 +93,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True  
 
-API_URL = os.getenv('API_URL', 'http://192.168.1.232:8004')
+API_URL = os.getenv('API_URL', 'http://34.222.123.222/serigraft_api/')
 
 LOGIN_URL = '/login'
 
