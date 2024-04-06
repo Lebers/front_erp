@@ -1,0 +1,126 @@
+:root {
+  --myApp-toast-color-success: #0abf30;
+  --myApp-toast-color-error: #e24d4c;
+  --myApp-toast-color-warning: #e9bd0c;
+  --myApp-toast-color-info: #3498db;
+}
+
+@media screen and (max-width: 530px) {
+  .myApp-notifications {
+    width: 95%;
+  }
+  .myApp-notifications .myApp-toast {
+    width: 100%;
+    font-size: 1rem;
+    margin-left: 20px;
+  }
+}
+
+.myApp-notifications {
+  position: fixed;
+  top: 30px;
+  right: 20px;
+}
+.myApp-notifications .myApp-toast {
+  display: flex;
+  align-items: center;
+  width: 400px;
+  position: relative;
+  overflow: hidden;
+  list-style: none;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  padding: 16px 17px;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  animation: show_toast 0.3s ease forwards;
+  color: white;
+}
+
+.myApp-toast.success {
+  background: var(--myApp-toast-color-success);
+}
+.myApp-toast.error {
+  background: var(--myApp-toast-color-error);
+}
+.myApp-toast.warning {
+  background: var(--myApp-toast-color-warning);
+}
+.myApp-toast.info {
+  background: var(--myApp-toast-color-info);
+}
+
+@keyframes show_toast {
+  0% { transform: translateX(100%); }
+  40% { transform: translateX(-5%); }
+  80% { transform: translateX(0%); }
+  100% { transform: translateX(-10px); }
+}
+
+.myApp-notifications .myApp-toast.hide {
+  animation: hide_toast 0.3s ease forwards;
+}
+
+@keyframes hide_toast {
+  0% { transform: translateX(-10px); }
+  40% { transform: translateX(0%); }
+  80% { transform: translateX(-5%); }
+  100% { transform: translateX(calc(100% + 20px)); }
+}
+
+.myApp-toast::before {
+  position: absolute;
+  content: "";
+  height: 3px;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+  background: white;
+  animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+  100% { width: 0%; }
+}
+
+.myApp-toast .column i {
+  font-size: 1.75rem;
+}
+
+.myApp-toast .column span {
+  font-size: 1.07rem;
+  margin-left: 12px;
+}
+
+.myApp-toast i:last-child {
+  cursor: pointer;
+  padding-right: 5px;
+}
+
+.myApp-toast i:last-child:hover {
+  background-color: lightgrey;
+  border-radius: 50px;
+  padding: 5px;
+}
+
+.myApp-toast.inverted {
+  background: white;
+  color: black; /* Assuming a default color change for inverted toasts */
+
+  /* Progress bar colors for inverted toasts */
+  &.success::before { background: var(--myApp-toast-color-success); }
+  &.error::before { background: var(--myApp-toast-color-error); }
+  &.warning::before { background: var(--myApp-toast-color-warning); }
+  &.info::before { background: var(--myApp-toast-color-info); }
+
+  /* Icon colors for inverted toasts */
+  &.success .column i { color: var(--myApp-toast-color-success); }
+  &.error .column i { color: var(--myApp-toast-color-error); }
+  &.warning .column i { color: var(--myApp-toast-color-warning); }
+  &.info .column i { color: var(--myApp-toast-color-info); }
+
+  /* Close button styling for inverted toasts */
+  i:last-child {
+    color: #aeb0d7;
+  }
+}

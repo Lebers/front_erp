@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuevo Usuario</title>
+</head>
+<body>
+    <h1>Bienvenido, {{ username }}</h1>
+
+    <form id="menuForm">
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <input type="password" id="passwordConfirm" placeholder="Confirmar Contraseña" required />
+        <button type="submit" id="submitButton">Entrar</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        // Define la variable username del contexto de Django
+        var username = "{{ username }}";
+        
+        console.log("El usuario es:", username);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('menuForm');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                var password = document.getElementById('password').value;
+                var passwordConfirm = document.getElementById('passwordConfirm').value;
+
+                // Asegúrate de que las contraseñas coincidan
+                if (password !== passwordConfirm) {
+                    alert('Las contraseñas no coinciden.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api_proxy/',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        "api_method": "user/activate",
+                        "type_method": "POST",
+                        "username": username,
+                        "password": password 
+                    }),
+                    success: function(response) {
+                        console.log('Success:', response);
+                        alert('Operación exitosa: ' + response.message);
+                    },
+                    error: function(xhr, status, errorMessage) {
+                        console.log('Error:', errorMessage);
+                        let errorDetail = "An error occurred";
+                        if (xhr.responseText) {
+                            try {
+                                const responseObj = JSON.parse(xhr.responseText);
+                                errorDetail = responseObj.message || "An error occurred";
+                            } catch (e) {
+                                console.error('Error parsing JSON response:', e);
+                            }
+                        }
+                        alert('Error: ' + errorDetail);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
